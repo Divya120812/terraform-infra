@@ -1,0 +1,43 @@
+name: Deploy DEV - EC2 only
+on: { workflow_dispatch: {} }
+
+permissions: { id-token: write, contents: read }
+
+jobs:
+  ec2:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra-terraform/envs/dev   # <-- same env folder
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::275837740833:role/GitHubOIDCAdminRole   # <-- your role ARN
+          aws-region: ap-south-1
+
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: ">=1.6.0" }
+
+      - name: Terraform init
+        run: terraform init -backend-config=backend.hcl
+
+      # This targets only the EC2 module. If the VPC is already applied,
+      # it will just create/update EC2. If VPC isn't there yet, Terraform may
+      # include required dependencies automatically.
+      - name: Terraform plan (EC2 only)
+        run: terraform plan -target=module.ec2 -out ec2.tfplan
+
+      - name: Terraform apply (EC2 only)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: terraform apply -auto-approve ec2.tfplan
+
+      - name: Outputs (EC2)
+        run: terraform output -json | tee ec2_outputs.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ec2-outputs
+          path: ec2_outputs.json
