@@ -22,7 +22,7 @@ defaults:
     shell: bash
 
 env:
-  TF_DIR: infra/terraform/bootstrap
+  TF_DIR: infra-terraform/Bootstrap
 
 jobs:
   terraform-plan:
