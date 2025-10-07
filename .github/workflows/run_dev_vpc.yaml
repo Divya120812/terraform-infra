@@ -1,0 +1,40 @@
+name: Deploy DEV - VPC only
+on: { workflow_dispatch: {} }
+
+permissions: { id-token: write, contents: read }
+
+jobs:
+  vpc:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra-terraform/envs/dev   # <-- your env folder
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::275837740833:role/GitHubOIDCAdminRole   # <-- your role ARN
+          aws-region: ap-south-1
+
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: ">=1.6.0" }
+
+      - name: Terraform init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform plan (VPC only)
+        run: terraform plan -target=module.vpc -out vpc.tfplan
+
+      - name: Terraform apply (VPC only)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: terraform apply -auto-approve vpc.tfplan
+
+      - name: Outputs (VPC)
+        run: terraform output -json | tee vpc_outputs.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vpc-outputs
+          path: vpc_outputs.json
