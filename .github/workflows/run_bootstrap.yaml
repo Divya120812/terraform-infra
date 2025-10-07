@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   call-bootstrap:
-    uses: Divya120812/terraform-infra/.github/workflows/aws_account_bootstrap.yml@main
+    uses: Divya120812/terraform-infra/.github/workflows/aws_account_bootstrap.yaml@main
     with:
       environment: ${{ github.event.inputs.environment }}
       application: ${{ github.event.inputs.application }}
