@@ -1,4 +1,4 @@
-name: Deploy DEV - EC2 only
+name: Deploy DEV - EC2 
 on: { workflow_dispatch: {} }
 
 permissions: { id-token: write, contents: read }
