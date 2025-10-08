@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: infra-terraform/env/dev   # <-- same env folder
+        working-directory: infra-terraform/env/dev/dev_ec2  # <-- same env folder
     steps:
       - uses: actions/checkout@v4
 
