@@ -1,30 +1,26 @@
-# Always fetch latest Amazon Linux 2023 x86_64 (no AMI hardcode)
+# Fetch the latest Amazon Linux 2023 AMI
 data "aws_ami" "al2023" {
   most_recent = true
   owners      = ["amazon"]
-  
-filter {
+
+  filter {
     name   = "name"
     values = ["al2023-ami-*-x86_64"]
   }
-  
-filter {
+
+  filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
 }
 
-locals {
-  tags = merge({ Environment = var.environment, ManagedBy = "terraform" }, var.tags)
-}
+# Security Group for EC2
+resource "aws_security_group" "ec2_sg" {
+  name        = "${var.environment}-ec2-sg"
+  description = "Allow SSH"
+  vpc_id      = data.aws_subnet.selected.vpc_id
 
-resource "aws_security_group" "ssh_http" {
-  name   = "sg-ssh-http-${var.environment}"
-  vpc_id = data.aws_subnet.selected.vpc_id
-
-  
-ingress {
+  ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
@@ -32,26 +28,22 @@ ingress {
     cidr_blocks = [var.allow_ssh_cidr]
   }
 
-  ingress { 
-     from_port = 80 
-     to_port   = 80
-     protocol = "tcp" 
-     cidr_blocks = ["0.0.0.0/0"]
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress  {
-     from_port = 0 
-     to_port = 0 
-     protocol = "-1"
-     cidr_blocks = ["0.0.0.0/0"] 
-  }
-  tags = local.tags
- }
-
-data "aws_subnet" "selected" {
-    id = var.subnet_id 
+  tags = var.tags
 }
 
+# Get subnet details
+data "aws_subnet" "selected" {
+  id = var.subnet_id
+}
+
+# EC2 Instance
 resource "aws_instance" "ec2" {
   ami           = data.aws_ami.al2023.id
   instance_type = var.instance_type
