@@ -25,7 +25,7 @@ jobs:
         run: terraform init -backend-config=backend.hcl
 
       - name: Terraform plan (VPC)
-        run: terraform plan -target=module.vpc -out vpc.tfplan
+        run: terraform plan -target=module.vpc -out vpc.tfplan -var-file="terraform.tfvars"
 
       - name: Terraform apply (VPC)
         if: ${{ github.ref == 'refs/heads/main' }}
