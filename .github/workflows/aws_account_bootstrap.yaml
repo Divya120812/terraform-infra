@@ -36,7 +36,7 @@ jobs:
       - name: Configure AWS Credentials via OIDC Token
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}
+          role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}  # add account Id and OIDC role in secrets and variables in settings
           aws-region: ${{ inputs.region }}
 
       - name: Setup Terraform on Github runner
@@ -85,7 +85,7 @@ jobs:
       - name: Configure AWS Credentials via OIDC Token
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}
+          role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}  # add account Id and OIDC role in secrets and variables in settings
           aws-region: ${{ inputs.region }}
 
       - name: Setup Terraform
