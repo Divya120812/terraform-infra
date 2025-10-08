@@ -1,4 +1,4 @@
-name: Deploy DEV - VPC only
+name: Deploy DEV - VPC 
 on: { workflow_dispatch: {} }
 
 permissions: { id-token: write, contents: read }
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: infra-terraform/env/dev   # <-- your env folder
+        working-directory: infra-terraform/env/dev/dev_vpc   # <-- your env folder
     steps:
       - uses: actions/checkout@v4
 
