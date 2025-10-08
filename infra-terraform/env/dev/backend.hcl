@@ -1,5 +1,5 @@
-bucket         = "YOUR_TFSTATE_BUCKET"
+bucket         = "dev-terraform-infra-tf-statefiles"
 key            = "vpc-ec2/dev.tfstate"
-region         = "ap-south-1"
-dynamodb_table = "YOUR_LOCK_TABLE"
+region         = "us-east-1"
+dynamodb_table = "dev-terraform-infra-tf-lock"
 encrypt        = true
