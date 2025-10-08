@@ -28,7 +28,7 @@ jobs:
       # it will just create/update EC2. If VPC isn't there yet, Terraform may
       # include required dependencies automatically.
       - name: Terraform plan (EC2)
-        run: terraform plan -target=module.ec2 -out ec2.tfplan
+        run: terraform plan -target=module.ec2 -out ec2.tfplan -var-file="terraform.tfvars"
 
       - name: Terraform apply (EC2)
         if: ${{ github.ref == 'refs/heads/main' }}
