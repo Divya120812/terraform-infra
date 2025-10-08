@@ -37,7 +37,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}  # add account Id and OIDC role in secrets and variables in settings
-          aws-region: ${{ inputs.region }}
+          aws-region: ${{ inputs.region }}                                                #arn added in secrets in settings
 
       - name: Setup Terraform on Github runner
         uses: hashicorp/setup-terraform@v3
