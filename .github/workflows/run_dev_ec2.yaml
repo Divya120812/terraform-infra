@@ -27,10 +27,10 @@ jobs:
       # This targets only the EC2 module. If the VPC is already applied,
       # it will just create/update EC2. If VPC isn't there yet, Terraform may
       # include required dependencies automatically.
-      - name: Terraform plan (EC2 only)
+      - name: Terraform plan (EC2)
         run: terraform plan -target=module.ec2 -out ec2.tfplan
 
-      - name: Terraform apply (EC2 only)
+      - name: Terraform apply (EC2)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: terraform apply -auto-approve ec2.tfplan
 
