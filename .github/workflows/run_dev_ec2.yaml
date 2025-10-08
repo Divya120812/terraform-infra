@@ -15,8 +15,8 @@ jobs:
       - name: Configure AWS (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::275837740833:role/GitHubOIDCAdminRole   # <-- your role ARN
-          aws-region: ap-south-1
+          role-to-assume: arn:aws:iam::${{ vars.ACCOUNT_ID }}:role/${{ vars.OIDC_ROLE }}  # add account Id and OIDC role in secrets and variables in settings   
+          aws-region: us-east-1                                                           #arn added in secrets in settings
 
       - uses: hashicorp/setup-terraform@v3
         with: { terraform_version: ">=1.6.0" }
