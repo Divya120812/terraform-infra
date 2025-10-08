@@ -24,10 +24,10 @@ jobs:
       - name: Terraform init
         run: terraform init -backend-config=backend.hcl
 
-      - name: Terraform plan (VPC only)
+      - name: Terraform plan (VPC)
         run: terraform plan -target=module.vpc -out vpc.tfplan
 
-      - name: Terraform apply (VPC only)
+      - name: Terraform apply (VPC)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: terraform apply -auto-approve vpc.tfplan
 
