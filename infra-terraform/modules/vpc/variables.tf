@@ -1,4 +1,31 @@
-variable "environment"   { type = string }
-variable "vpc_cidr"      { type = string }
-variable "public_cidrs"  { type = list(string) }
-variable "tags"          { type = map(string), default = {} }
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_cidrs" {
+  description = "List of public subnet CIDRs"
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+variable "private_subnet_cidrs" {
+  description = "List of private subnet CIDRs"
+  type        = list(string)
+  default     = ["10.0.3.0/24", "10.0.4.0/24"]
+}
+
+variable "tags" {
+  description = "Common tags for resources"
+  type        = map(string)
+  default = {
+    Project = "terraform-infra"
+  }
+}
