@@ -54,13 +54,4 @@ resource "aws_instance" "ec2" {
   tags = merge(var.tags, { Name = "${var.environment}-ec2" })
 }
 
-module "vpc" {
-  source = "./vpc"
-  # other inputs
-}
-
-module "ec2" {
-  source = "./ec2"
-  # other inputs
-}
 
