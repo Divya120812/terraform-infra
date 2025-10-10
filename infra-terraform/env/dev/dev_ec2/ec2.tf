@@ -1,7 +1,7 @@
 module "ec2" {
   source         = "../../../modules/ec2"
   environment    = var.environment
-  subnet_id      = module.vpc.subnet_ids[0]      #var.public_subnet_cidrs
+  subnet_id      = module.vpc.public_subnet_ids[0]      #var.public_subnet_cidrs
   instance_type  = var.instance_type
   key_name       = var.key_name
   allow_ssh_cidr = var.allow_ssh_cidr
