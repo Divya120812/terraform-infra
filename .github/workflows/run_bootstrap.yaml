@@ -1,4 +1,4 @@
-name: Run AWS Bootstrap
+name: Run AWS Bootstrap             # reusable
 on:
   workflow_dispatch:        # This gives you the "Run workflow" button
     inputs:
