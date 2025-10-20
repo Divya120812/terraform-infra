@@ -1,4 +1,4 @@
-# Fetch the latest Amazon Linux 2023 AMI
+#  Fetch the latest Amazon Linux 2023 AMI
 data "aws_ami" "al2023" {
   most_recent = true
   owners      = ["amazon"]
